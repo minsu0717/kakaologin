@@ -5,10 +5,22 @@ const getAuth = async (req, res) => {
   res.redirect(auth);
 };
 
-const getAccessToken = async (req, res) => {
-  const code = req.query.code;
-  const token = await userService.getAccessToken(code);
-  res.status(200).json(token);
+const getAccessToken = async (req, res, next) => {
+  try {
+    const code = req.query.code;
+    console.log("----------------code :", code, "-------------------");
+    const token = await userService.getAccessToken(code);
+    console.log("----------------toekn :", token, "-------------------");
+    res.json(token);
+  } catch (err) {
+    console.log("a", err);
+  }
 };
 
-module.exports = { getAuth, getAccessToken };
+const signInKakao = async (req, res) => {
+  const kakaoToken = req.headers.authorization;
+  result = await userService.signInKakao(kakaoToken);
+  res.status(200).json(result);
+};
+
+module.exports = { getAuth, getAccessToken, signInKakao };

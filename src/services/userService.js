@@ -3,15 +3,6 @@ const axios = require("axios");
 // const jwt = require("jsonwebtoken");
 const qs = require("querystring");
 
-// const signInKakao = async (kakaoToken) => {
-//   const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
-//     headers: {
-//       Authorization: `Bearer ${kakaoToken}`,
-//     },
-//   });
-//   console.log(result);
-// };
-
 const redirectUri = "http://localhost:3000/auth/kakao/finish";
 const clientId = process.env.KAKAO_KEY;
 
@@ -48,4 +39,12 @@ const getAccessToken = async (code) => {
   }
 };
 
-module.exports = { getAuth, getAccessToken };
+const signInKakao = async (kakaoToken) => {
+  const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
+    headers: {
+      Authorization: `Bearer ${kakaoToken}`,
+    },
+  });
+  return result.data;
+};
+module.exports = { getAuth, getAccessToken, signInKakao };
